@@ -1,7 +1,6 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const {app, runServer, closeServer} = require('../server');
-
 const expect = chai.expect;
 
 describe('Blog Posts', function() {
@@ -34,4 +33,9 @@ describe('Blog Posts', function() {
 			expect(res).to.have.status(201);
 		});
 	});
+	/*
+	it('should delete a blog post on DELETE', function() {
+
+	});
+	*/
 });
