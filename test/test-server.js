@@ -13,7 +13,7 @@ describe('Blog Posts', function() {
 	});
 	it('should list blog posts on GET', function() {
 		return chai.request(app)
-		.get('/')
+		.get('/blog-posts')
 		.then(function(res) {
 			expect(res).to.have.status(200);
 			expect(res).to.be.json;
@@ -28,15 +28,40 @@ describe('Blog Posts', function() {
 			publishDate: 'publishDate'
 		};
 		return chai.request(app)
-		.post('/')
+		.post('/blog-posts')
 		.send(newItem)
 		.then(function(res) {
 			expect(res).to.have.status(201);
 		});
 	});
-	/*
 	it('should delete a blog post on DELETE', function() {
-
+		return chai.request(app)
+		.get('/blogposts')
+		.then(function(res) {
+			return chai.request(app)
+			.delete(`/blog-posts/${res.body[0].id}`);
+		})
+		.then(function(res) {
+			expect(res).to.have.status(204);
+		});
 	});
-	*/
+	it('should update a blog post on PUT', function() {
+		const updateData = {
+			title: 'title',
+			content: 'content',
+			author: 'author',
+			publishDate: 'publishDate'
+		};
+		return chai.request(app)
+		.get('/blog-posts')
+		.then(function(res) {
+			updateData.id = res.body[0].id;
+			return chai.request(app)
+			.put(`/blog-posts/${updateData.id}`)
+			.send(updateData);
+		})
+		.then(function(res) {
+			expect(res).to.have.status(204);
+		});
+	});
 });
