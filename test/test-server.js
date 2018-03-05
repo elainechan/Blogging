@@ -34,15 +34,13 @@ describe('Blog Posts', function() {
 			expect(res).to.have.status(201);
 		});
 	});
-	it('should delete a blog post on DELETE', function() {
+	it('should error if POST missing expected values', function() {
+		const badRequestData = {};
 		return chai.request(app)
-		.get('/blogposts')
-		.then(function(res) {
-			return chai.request(app)
-			.delete(`/blog-posts/${res.body[0].id}`);
-		})
-		.then(function(res) {
-			expect(res).to.have.status(204);
+		.post('/blog-posts')
+		.send(badRequestsData)
+		.catch(function(res) {
+			expect(res).to.have.status(400);
 		});
 	});
 	it('should update a blog post on PUT', function() {
@@ -59,6 +57,17 @@ describe('Blog Posts', function() {
 			return chai.request(app)
 			.put(`/blog-posts/${updateData.id}`)
 			.send(updateData);
+		})
+		.then(function(res) {
+			expect(res).to.have.status(204);
+		});
+	});
+	it('should delete a blog post on DELETE', function() {
+		return chai.request(app)
+		.get('/blogposts')
+		.then(function(res) {
+			return chai.request(app)
+			.delete(`/blog-posts/${res.body[0].id}`);
 		})
 		.then(function(res) {
 			expect(res).to.have.status(204);

@@ -53,4 +53,4 @@ router.put('/:id', jsonParser, (req, res) => {
 	});
 });
 
-module.exports = router;
+module.exports = {router};
