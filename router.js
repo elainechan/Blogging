@@ -20,8 +20,30 @@ BlogPosts.create(
 	"No country for old men", lorem(), "Lilly Allen"
 )
 
+// General finding; returns array of documents
 router.get('/', (req, res) => {
-	res.json(BlogPosts.get());
+	BlogPost
+	.find()
+	.then(blogPosts => {
+		res.json({
+			blogPosts: blogPosts.map(
+				(blogPost) => blogPost.serialize())
+		});
+	})
+	.catch(err => {
+		console.error(err);
+		res.status(500).json({message: 'Something went wrong.'})
+	});
+});
+// Finding by id; returns single document
+router.get('/:id', (req, res) => {
+	BlogPost
+	.findById(req.params.id)
+	.then(blogPost => res.json(blogPost.serialize()))
+	.catch(err => {
+		console.error(err);
+		res.status(500).json({message: 'Internal server error.'})
+	});
 });
 
 router.post('/', jsonParser, (req, res)=> {

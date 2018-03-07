@@ -1,25 +1,33 @@
 const express = require('express');
 const morgan = require('morgan');
-const bodyParser = require('body-parser');
-const jsonParser = bodyParser.json();
+const {PORT, DATABASE_URL} = require('./config');
 
 const {BlogPosts} = require('./models');
 const {router} = require('./router');
 
+const bodyParser = require('body-parser');
+const jsonParser = bodyParser.json();
+
 const app = express();
 
-app.use(router);
+app.use('/blog-posts', router);
 app.use(morgan('common'));
 
 let server;
-function runServer() {
+function runServer(databaseUrl, port=PORT) {
 	const port = process.env.PORT || 8080;
 	return new Promise((resolve, reject) => {
-		server = app.listen(port, () => {
-			console.log(`Your app is listening at port ${port}...`);
-			resolve(server);
-		}).on('error', err => {
-			reject(err);
+		mongoose.connect(databaseUrl, err => {
+			if (err) {
+				return reject(err);
+			}
+			server = app.listen(port, () => {
+				console.log(`Your app is listening at port ${port}...`);
+				resolve();
+			}).on('error', err => {
+				mongoose.disconnect();
+				reject(err);
+			});
 		});
 	});
 }
@@ -36,7 +44,7 @@ function closeServer() {
 	});
 }
 if (require.main === module) {
-	runServer().catch(err => console.error(err));
+	runServer(DATABASE_URL).catch(err => console.error(err));
 }
 
 module.exports = {app, runServer, closeServer};
