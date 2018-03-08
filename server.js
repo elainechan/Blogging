@@ -1,16 +1,16 @@
 const express = require('express');
 const morgan = require('morgan');
-const {PORT, DATABASE_URL} = require('./config');
-
-const {BlogPosts} = require('./models');
-const {router} = require('./router');
-
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
+mongoose.Promise = global.Promise;
+
+const {PORT, DATABASE_URL} = require('./config');
+const {BlogPost} = require('./models');
+const {router} = require('./router');
 
 const app = express();
 
-app.use('/blog-posts', router);
+app.use('/posts', router);
 app.use(morgan('common'));
 
 let server;
