@@ -21,43 +21,40 @@ describe('Blog Posts', function() {
 	});
 	it('should add a blog post on POST', function() {
 		const newItem = {
-			id: 'id',
 			title: 'title',
 			content: 'content',
-			author: 'author',
-			publishDate: 'publishDate'
+			author: 'author'
 		};
 		return chai.request(app)
 		.post('/blog-posts')
 		.send(newItem)
 		.then(function(res) {
 			expect(res).to.have.status(201);
+			expect(res.body).to.have.all.keys(['id', 'publishDate', 'title', 'content', 'author']);
 		});
 	});
 	it('should error if POST missing expected values', function() {
 		const badRequestData = {};
 		return chai.request(app)
 		.post('/blog-posts')
-		.send(badRequestsData)
+		.send(badRequestData)
 		.catch(function(res) {
 			expect(res).to.have.status(400);
 		});
 	});
 	it('should update a blog post on PUT', function() {
-		const updateData = {
-			title: 'title',
-			content: 'content',
-			author: 'author',
-			publishDate: 'publishDate'
-		};
+		
 		return chai.request(app)
 		.get('/blog-posts')
 		.then(function(res) {
-			updateData.id = res.body[0].id;
-			return chai.request(app)
-			.put(`/blog-posts/${updateData.id}`)
-			.send(updateData);
-		})
+			const updatedPost = Object.assign(res.body[0], {
+				title: 'title',
+				content: 'content'
+			});
+		});
+		return chai.request(app)
+		.put(`/blog-posts/${res.body[0].id}`)
+		.send(updatedPost)
 		.then(function(res) {
 			expect(res).to.have.status(204);
 		});
