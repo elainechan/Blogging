@@ -9,11 +9,11 @@ const blogPostSchema = mongoose.Schema({
     lastName: String
   },
   title: {type: String, required: true},
-  content: {type: String, required: true},
+  content: {type: String},
   created: {type: Date, default: Date.now}
 });
 
-// Virtual authorName for first last names
+
 blogPostSchema.virtual('authorName').get(function() {
   return `${this.author.firstName} ${this.author.lastName}`.trim();
 });
@@ -22,12 +22,12 @@ blogPostSchema.methods.serialize = function() {
   return {
     id: this._id,
     author: this.authorName,
-    title: this.title,
     content: this.content,
+    title: this.title,
     created: this.created
   };
-}
+};
 
-const BlogPost = mongoose.model('Blogpost', blogPostSchema);
+const BlogPost = mongoose.model('BlogPost', blogPostSchema);
 
 module.exports = {BlogPost};
