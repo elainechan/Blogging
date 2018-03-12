@@ -1,2 +1,10 @@
 language: node_js
 node_js: node
+deploy:
+  provider: heroku
+  api_key:
+    secure: c6b0M9alNNGTVJmG+3jbs3W09FzpjrIaBDj6AQqULPG3W+hc7Hntr2k/xYOPYFjwggH0G8QKAtz+ApP2/h8UiUPzsuLQr+tu/02ZNhSKh8l/JmL7upTmy4Tj4Sd2W+ieMSNKHwDNRqgtN2+NEqlAHiOz/ZrpBKY5mdLMkRy4FaHtbZ3S73AFxhKERu8RCNm4WgNpdbrrYq2ElSzuN+Aq8wkiHD599oISX3Iv7EI99J+ugkG2CwsYt4OXUjRUOxibmsff8LhMEhQRTR+tn/VxuTRy2rE6YMfzg7FV6npiGkjkcKvzwqkkPffmclygQj3JUbUL3MUiljo005lZnSH4UuTC2u+SqVBhFZVK6ulRkmE7fEWvvXBBHiRlFe9Pnd0Zh321eUOheQlbd5tKa7+FGyNhzdmbY/4Hxnc3z30jQKf62PfX78ZkfFQFttdD3VR+LUxUNgOZG8qpV6//qNm8f7UB9awTdV2rl414p+CPDtCSVgfOJQkOxtd2YFfvzmGdiBWsvShzcRYfDC8QYrif2iuTGmqTm7jWmthPBzMWUDd5bXt81rEz8cHI28P4sX3knqYyz2v0S9O4UBqK1DGLePqtvjzCI9t7Ci/X6AbiGR0Rs76hC7DLqA6Eid+6tPIuZj6nTTt7FA6T/yz9690OodE/Ox+cZ+caBDCKwswKh2k=
+  app: Blogging
+  on:
+    repo: elainechan/Blogging
+    branch: mongoose
