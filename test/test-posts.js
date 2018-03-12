@@ -39,7 +39,8 @@ describe('Blog Post API resource', function() {
 		return runServer(TEST_DATABASE_URL);
 	});
 	beforeEach(function() {
-		return seedBlogPostData;
+		console.log('seedBlogPostData is called.');
+		return seedBlogPostData();
 	});
 	afterEach(function() {
 		return tearDownDb();
@@ -143,7 +144,7 @@ describe('Blog Post API resource', function() {
 				post.title.should.equal(updateData.title);
 				post.content.should.equal(updateData.content);
 				post.author.firstName.should.equal(updateData.author.firstName);
-				post.author.lastName.equal(updateData.author.lastName);
+				post.author.lastName.should.equal(updateData.author.lastName);
 			});
 		});
 	});
